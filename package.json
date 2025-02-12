@@ -1,36 +1,80 @@
 {
-  "name": "template-2",
-  "version": "0.1.0",
-  "private": true,
+  "name": "mongodb-auth0-nextjs-template",
+  "version": "1.0.0",
+  "private": false,
+  "description": "A production-ready template for building full-stack applications with Next.js, Auth0, and MongoDB",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "analyze": "ANALYZE=true next build",
+    "test": "jest",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@ai-sdk/anthropic": "^0.0.48",
-    "@ai-sdk/openai": "^0.0.54",
-    "@deepgram/sdk": "^3.6.0",
-    "ai": "^3.3.20",
-    "date-fns": "^3.6.0",
-    "firebase": "^10.13.0",
-    "framer-motion": "^11.3.31",
-    "lucide-react": "^0.436.0",
-    "next": "14.2.7",
-    "react": "^18",
-    "react-dom": "^18",
-    "react-markdown": "^9.0.1",
-    "replicate": "^0.32.0"
+    "@auth0/nextjs-auth0": "^4.0.1",
+    "@vercel/analytics": "^1.1.2",
+    "@vercel/speed-insights": "^1.0.9",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.1.1",
+    "next": "14.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sharp": "^0.33.2",
+    "swr": "^2.2.4",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.7",
-    "postcss": "^8",
+    "@next/bundle-analyzer": "^14.1.0",
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^14.2.1",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.16",
+    "@types/react": "^18.2.52",
+    "@types/react-dom": "^18.2.18",
+    "autoprefixer": "^10.4.17",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "14.1.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "postcss": "^8.4.33",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5.3.3"
+  },
+  "keywords": [
+    "mongodb",
+    "auth0",
+    "nextjs",
+    "typescript",
+    "template",
+    "authentication",
+    "database",
+    "swr",
+    "performance",
+    "testing"
+  ],
+  "author": {
+    "name": "Rom Iluz",
+    "email": "rom.iluz@mongodb.com",
+    "url": "https://www.linkedin.com/in/rom-iluz/"
+  },
+  "contributors": [
+    {
+      "name": "MongoDB Developer Relations",
+      "url": "https://www.mongodb.com"
+    }
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mongodb/nextjs-auth0-template"
+  },
+  "bugs": {
+    "url": "https://github.com/mongodb/nextjs-auth0-template/issues"
+  },
+  "homepage": "https://github.com/mongodb/nextjs-auth0-template#readme",
+  "engines": {
+    "node": ">=18.17.0"
   }
 }

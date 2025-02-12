@@ -1,59 +1,56 @@
 "use client";
 
-import React, { createContext, useEffect, useState } from "react";
-import { signInWithPopup, GoogleAuthProvider, signOut as firebaseSignOut } from "firebase/auth";
-import { User } from "firebase/auth";
-import { auth } from "../firebase/firebase";
+import React from "react";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { IUser } from "../mongodb/models/User";
 
 interface AuthContextType {
-  user: User | null;
-  loading: boolean;
-  signInWithGoogle: () => Promise<void>;
-  signOut: () => Promise<void>;
+  isLoading: boolean;
+  error?: Error;
+  user?: {
+    email?: string;
+    email_verified?: boolean;
+    name?: string;
+    nickname?: string;
+    picture?: string;
+    sub?: string;
+    updated_at?: string;
+  };
+  dbUser: IUser | null;
 }
 
-const AuthContext = createContext<AuthContextType>({
-  user: null,
-  loading: true,
-  signInWithGoogle: async () => {},
-  signOut: async () => {},
+export const AuthContext = React.createContext<AuthContextType>({
+  isLoading: true,
+  dbUser: null,
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const auth = useUser();
+  const [dbUser, setDbUser] = React.useState<IUser | null>(null);
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  const signInWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
-    } catch (error) {
-      console.error("Error signing in with Google", error);
+  React.useEffect(() => {
+    async function fetchDbUser() {
+      if (auth.user) {
+        try {
+          const response = await fetch('/api/user');
+          if (response.ok) {
+            const data = await response.json();
+            setDbUser(data);
+          }
+        } catch (error) {
+          console.error('Error fetching MongoDB user:', error);
+        }
+      } else {
+        setDbUser(null);
+      }
     }
-  };
 
-  const signOutUser = async () => {
-    try {
-      await firebaseSignOut(auth);
-    } catch (error) {
-      console.error("Error signing out", error);
-    }
-  };
+    fetchDbUser();
+  }, [auth.user]);
 
   return (
-    <AuthContext.Provider value={{ user, loading, signInWithGoogle, signOut: signOutUser }}>
+    <AuthContext.Provider value={{ ...auth, dbUser }}>
       {children}
     </AuthContext.Provider>
   );
 }
-
-export { AuthContext };
